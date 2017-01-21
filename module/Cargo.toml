@@ -1,0 +1,12 @@
+[package]
+name = "fte_module"
+version = "0.0.1"
+authors = ["Ahbong Chang <cw.ahbong@gmail.com>"]
+
+[dependencies]
+log = "0.3"
+threadpool = "1.0"
+uuid = "0.3"
+
+[dev-dependencies]
+env_logger = "0.3"
