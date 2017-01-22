@@ -50,7 +50,7 @@ impl Module {
     }
 }
 
-impl fte_module::Module for Module {
+impl fte_module::HandleEvent for Module {
     fn handle_event(&mut self, event: fte_module::Event) -> fte_module::Result<()> {
         match event.kind.as_str() {
             "create" => self.event_create(event),
@@ -58,6 +58,14 @@ impl fte_module::Module for Module {
             "set" => self.event_set(event),
             _ => Err(fte_module::Error::InvalidKind),
         }
+    }
+}
+
+struct Serve {
+}
+
+impl fte_module::Serve for Serve {
+    fn service() -> Service {
     }
 }
 
@@ -72,6 +80,7 @@ impl NewModule {
 impl fte_module::NewModule for NewModule {
     type Module = Module;
     fn new_module(&self) -> Self::Module {
+        // ServiceModule::new(Service)
         Module::new()
     }
 }

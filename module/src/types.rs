@@ -5,6 +5,7 @@ use std::result;
 pub use self::uuid::Uuid;
 
 pub enum Error {
+    InvalidStatus,
     InvalidKind,
 }
 

@@ -4,9 +4,18 @@ use ::types::Result;
 use ::Module;
 
 pub struct Service {
-    calls: Vec<Box<Call>>,
-    events: Vec<Box<Event>>,
+    pub calls: Vec<Box<Call>>,
+    pub events: Vec<Box<Event>>,
     // streams: Stream,
+}
+
+impl Service {
+    pub fn new() -> Self {
+        Service {
+            calls: Vec::new(),
+            events: Vec::new(),
+        }
+    }
 }
 
 pub struct ServiceModule {
@@ -19,8 +28,8 @@ impl ServiceModule {
     }
 }
 
-impl Module for ServiceModule {
-    fn handle_event(&mut self, event: Event) -> Result<()> {
-        Ok(())
-    }
-}
+// impl Module for ServiceModule {
+//     fn handle_event(&mut self, event: Event) -> Result<()> {
+//         Ok(())
+//     }
+// }
