@@ -1,12 +1,21 @@
 extern crate uuid;
 
 use std::result;
+use std::sync::mpsc;
 
 pub use self::uuid::Uuid;
 
+#[derive(Debug)]
 pub enum Error {
     InvalidStatus,
     InvalidKind,
+    MpscRecieve(mpsc::RecvError),
+}
+
+impl From<mpsc::RecvError> for Error {
+    fn from(error: mpsc::RecvError) -> Self {
+        Error::MpscRecieve(error)
+    }
 }
 
 pub type Result<T> = result::Result<T, Error>;

@@ -4,4 +4,5 @@ version = "0.0.1"
 authors = ["Ahbong Chang <cw.ahbong@gmail.com>"]
 
 [dependencies]
-uuid = "0.1"
+threadpool = "1.0"
+uuid = "0.3"

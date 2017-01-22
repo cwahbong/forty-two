@@ -4,7 +4,7 @@ version = "0.0.1"
 authors = ["Ahbong Chang <cw.ahbong@gmail.com>"]
 
 [dependencies]
-uuid = "0.1"
+uuid = "0.3"
 
 [dependencies.fte_module]
 path = "../module"
