@@ -2,6 +2,7 @@ extern crate threadpool;
 
 use ::api;
 use ::types::Event;
+use ::types::Message;
 use ::utils;
 
 use std::sync::mpsc;
@@ -32,13 +33,13 @@ impl EventHandler {
         // TODO handle response of my calls
     }
 
-    fn handle_callee(&mut self, _sender_channel: &mut mpsc::SyncSender<Event>, _event: Event) {
+    fn handle_callee(&mut self, _sender_channel: &mut mpsc::SyncSender<Message>, _event: Event) {
         // TODO handle request and notififications to me
     }
 
     pub fn handle(&mut self,
                   join_channel: &mut mpsc::Sender<utils::Join>,
-                  sender_channel: &mut mpsc::SyncSender<Event>,
+                  sender_channel: &mut mpsc::SyncSender<Message>,
                   event: Event) {
         match event.kind.as_str() {
             "module" => self.handle_module(join_channel, event),
@@ -55,8 +56,8 @@ pub struct EventDispatcher {
 
 impl EventDispatcher {
     pub fn start(api_table: api::Table,
-                 receiver_channel: mpsc::Receiver<Event>,
-                 mut sender_channel: mpsc::SyncSender<Event>)
+                 receiver_channel: mpsc::Receiver<Message>,
+                 mut sender_channel: mpsc::SyncSender<Message>)
                  -> Self {
         let mut event_handler = EventHandler::start(api_table);
         let drop_join = utils::DropJoin::spawn_loop("event dispatcher", move |ref mut join_channel| {
@@ -68,8 +69,10 @@ impl EventDispatcher {
                         panic!(error);
                     }
                 }
-                Ok(event) => {
-                    event_handler.handle(join_channel, &mut sender_channel, event);
+                Ok(message) => {
+                    // XXX message.from and message.to
+                    // XXX should give a wrapped sender instead of sender_channel
+                    event_handler.handle(join_channel, &mut sender_channel, message.event);
                 }
             }
         }).signal_on_drop(false);

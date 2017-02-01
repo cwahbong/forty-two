@@ -1,9 +1,6 @@
 #[macro_use]
 extern crate log;
 
-pub use ::types::Event;
-pub use ::types::EventArguments;
-
 pub mod api;
 pub mod module;
 pub mod part;

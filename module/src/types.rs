@@ -26,10 +26,17 @@ impl From<mpsc::RecvError> for Error {
 pub type Result<T> = result::Result<T, Error>;
 
 // pub type EventArguments = serde_json::Value;
-pub struct EventArguments; // XXX
+pub struct Arguments; // XXX
 
 pub struct Event {
     pub name: String,
     pub kind: String,
-    pub arguments: EventArguments,
+    pub arguments: Arguments,
 }
+
+pub struct Message {
+    pub sender: Uuid,
+    pub receiver: Uuid,
+    pub event: Event,
+}
+
