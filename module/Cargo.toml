@@ -1,0 +1,20 @@
+[package]
+name = "fte_module"
+version = "0.0.1"
+authors = ["Ahbong Chang"]
+
+[dependencies]
+byteorder = "1.0"
+futures = "0.1"
+log = "0.3"
+serde = "0.9"
+serde_derive = "0.9"
+serde_json = "0.9"
+tokio-core = "0.1"
+tokio-service = "0.1"
+tokio-proto = "0.1"
+uuid = "0.3"
+
+[dev-dependencies]
+clap = "2.20"
+env_logger = "0.3"
