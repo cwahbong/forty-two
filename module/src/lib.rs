@@ -9,6 +9,7 @@ extern crate tokio_core;
 extern crate tokio_proto;
 extern crate tokio_service;
 
+pub mod client;
 pub mod common;
 pub mod server;
 pub mod types;
