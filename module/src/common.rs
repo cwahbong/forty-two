@@ -1,15 +1,14 @@
-use types::Event;
-
 use byteorder::{NetworkEndian, ReadBytesExt, WriteBytesExt};
 use serde_json;
 use std::io;
 use tokio_core;
 
-pub struct EventCodec;
 
-impl tokio_core::io::Codec for EventCodec {
-    type In = Event;
-    type Out = Event;
+pub struct SizedJsonCodec;
+
+impl tokio_core::io::Codec for SizedJsonCodec {
+    type In = serde_json::Value;
+    type Out = serde_json::Value;
 
     fn decode(&mut self, buf: &mut tokio_core::io::EasyBuf) -> io::Result<Option<Self::In>> {
         trace!("Decode");
@@ -27,8 +26,8 @@ impl tokio_core::io::Codec for EventCodec {
         } else {
             buf.drain_to(position);
             let msg_buf = buf.drain_to(string_msg_size);
-            match serde_json::from_slice::<Event>(msg_buf.as_slice()) {
-                Ok(event) => Ok(Some(event)),
+            match serde_json::from_slice::<Self::In>(msg_buf.as_slice()) {
+                Ok(value) => Ok(Some(value)),
                 Err(error) => {
                     warn!("Json from slice error: {}", error);
                     Err(io::Error::new(io::ErrorKind::Other, "invalid json"))

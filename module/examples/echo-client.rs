@@ -5,7 +5,7 @@ extern crate fte_module;
 extern crate serde_json;
 
 use clap::{Arg, App};
-use fte_module::types::Event;
+use fte_module::types::RequestEvent;
 use std::net::SocketAddr;
 
 pub fn main() {
@@ -30,11 +30,10 @@ pub fn main() {
 
     let sock_addr = SocketAddr::new(addr.parse().unwrap(), port);
     let mut client = fte_module::client::connect(&sock_addr).unwrap();
-    let event = Event {
-        name: String::from("echo-name"),
-        kind: String::from("echo-kind"),
-        arguments: serde_json::value::Value::String(String::from("echo-arguments")),
+    let request_event = RequestEvent {
+        name: String::from("echo"),
+        arguments: serde_json::Value::String(String::from("echo-arguments")),
     };
-    let response = client.request(event).unwrap();
-    println!("Response {}", serde_json::to_string(&response).unwrap());
+    let response_event = client.request(request_event).unwrap();
+    println!("Response {}", serde_json::to_string(&response_event).unwrap());
 }

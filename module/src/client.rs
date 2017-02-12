@@ -1,8 +1,9 @@
-use common::EventCodec;
-use types::Event;
+use common::SizedJsonCodec;
+use types::{RequestEvent, ResponseEvent};
 
 use std::io;
 use std::net;
+use serde_json;
 use tokio_core;
 use tokio_proto;
 use tokio_proto::TcpClient;
@@ -14,13 +15,13 @@ pub struct ModuleClientProto;
 impl<T> ClientProto<T> for ModuleClientProto
     where T: tokio_core::io::Io + 'static
 {
-    type Request = Event;
-    type Response = Event;
-    type Transport = tokio_core::io::Framed<T, EventCodec>;
+    type Request = serde_json::Value;
+    type Response = serde_json::Value;
+    type Transport = tokio_core::io::Framed<T, SizedJsonCodec>;
     type BindTransport = Result<Self::Transport, io::Error>;
 
     fn bind_transport(&self, io: T) -> Self::BindTransport {
-        Ok(io.framed(EventCodec))
+        Ok(io.framed(SizedJsonCodec))
     }
 }
 
@@ -43,8 +44,11 @@ impl Client {
         })
     }
 
-    pub fn request(&mut self, event: Event) -> Result<Event, io::Error> {
-        self.core.run(self.service.call(event))
+    pub fn request(&mut self, request_event: RequestEvent) -> Result<ResponseEvent, io::Error> {
+        // XXX error handling instead of unwrap
+        let request = serde_json::to_value(request_event).unwrap(); // XXX need error handling instead of unwrap
+        let response = self.core.run(self.service.call(request))?;
+        Ok(serde_json::from_value(response).unwrap())
     }
 }
 
