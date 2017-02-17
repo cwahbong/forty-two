@@ -11,7 +11,9 @@ log = "0.3"
 serde = "0.9"
 serde_derive = "0.9"
 serde_json = "0.9"
-uuid = "0.3"
 
 [dependencies.fte_module]
 path = "../module"
+
+[dependencies.fte_rwlock_module]
+path = "../rwlock_module"

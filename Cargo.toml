@@ -1,2 +1,6 @@
 [workspace]
-members = ["module", "module_modules"]
+members = [
+    "module",
+    "module_modules",
+    "rwlock_module",
+]

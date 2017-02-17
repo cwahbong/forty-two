@@ -1,0 +1,11 @@
+[package]
+name = "fte_rwlock_module"
+version = "0.0.1"
+authors = ["Ahbong Chang"]
+
+[dependencies]
+serde = "0.9"
+serde_json = "0.9"
+
+[dependencies.fte_module]
+path = "../module"

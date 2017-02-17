@@ -12,6 +12,7 @@ pub enum Error {
     BadParameter,
     LockPoisoned,
     AlreadyRegisted,
+    Timeout,
 }
 
 impl fmt::Display for Error {
@@ -28,6 +29,7 @@ impl error::Error for Error {
             Error::InvalidApi => "Invalid api",
             Error::LockPoisoned => "Lock is poisoned",
             Error::AlreadyRegisted => "Already registed",
+            Error::Timeout => "Timeout"
         }
     }
 }

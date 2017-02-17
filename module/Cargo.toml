@@ -13,7 +13,6 @@ serde_json = "0.9"
 tokio-core = "0.1"
 tokio-service = "0.1"
 tokio-proto = "0.1"
-uuid = "0.3"
 
 [dev-dependencies]
 clap = "2.20"
